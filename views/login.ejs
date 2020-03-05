@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Koa框架博客案例</title>
+	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+	<link rel="stylesheet" href="../css/index.css">
+	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<header>
+		<div class="user_name">
+			欢迎注册登录^_^
+		</div>
+		<div class="message">登录成功</div>
+		<div class="user_right">
+			<!-- <div class="has_user">
+				<a href="/posts">全部文章</a>
+				<a href="/create">发表文章</a>
+				<span class="signout">登出</span>
+			</div> -->
+			<div class="none_user has_user">
+				<a class="active" href="/posts">全部文章</a>
+				<a href="/register">注册</a>
+				<a href="/signin">登录</a>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<form class="form create" method="post ">
+			<div>
+				<label>用户名：</label>
+				<input placeholder="用户名" type="text" name="username" id="username">
+			</div>
+			<div>
+				<label>密码：</label>
+				<input placeholder="密码" type="password" name="password" id="password">
+			</div>
+			<div class="submit" id='loginbtn'>登录</div>
+		</form>
+	</div>
+	<script>
+		$('#loginbtn').bind('click', () => {
+			const username = $('#username').val();
+			const password = $('#password').val();
+			console.log(`username : ${username} password : ${password}`);
+
+			$.ajax({
+					url: "/login",
+					data: $('.form').serialize(),
+					type: "POST",
+					cache: false,
+					dataType: 'json',
+					success: function (msg) {
+					    if (msg.code != 1) {
+							window.location.href = '/post/list'
+					    } else{
+							alert('登录失败 ' + JSON.stringify(msg) );        	
+					    }
+					},
+					error: function (e) {
+						alert('异常'+e);
+					}
+				})			
+
+
+
+			// $.ajax({
+			// 	type: 'POST', // 规定请求的类型（GET 或 POST）
+			// 	url:'/login', // 请求的url地址
+			// 	dataType: 'json', //预期的服务器响应的数据类型 
+			// 	contentType : 'application/json',//添加这句话
+			// 	// data: JSON.stringify({username,password}), //规定要发送到服务器的数据   //server error Error: invalid JSON, only supports object and array
+			// 	success: function (result) { // 当请求成功时运行的函数
+			// 		alert('success '+result);
+			// 	},
+			// 	error: function (result) { //失败的函数
+			// 		alert('error '+ JSON.stringify(result) );
+			// 	},
+			// })
+
+			// axios({
+			// 	url: '/login',
+			// 	method: 'POST', 
+			// 	data: JSON.stringify({username:username,password:password})
+			// }).then(res => {
+			// 	console.log(res.data);
+			// 	if (res.data.code == 1) {
+			// 		alert(res.data.msg);
+			// 	} else {
+			// 		alert(res.data.msg);
+			// 	}
+
+			// }).catch(err => {
+			// 	console.log(err);
+			// });
+			
+		})
+	</script>
+</body>
+
+</html>

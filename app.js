@@ -23,8 +23,8 @@ onerror(app)
 
 //配置koaBody
 app.use(koaBody({
-  multipart:true, // 支持文件上传
-  encoding:'gzip', //压缩传输内容
+  multipart:true, // 支持文件上传 **********
+  // encoding:'gzip', //压缩传输内容 
   formidable:{
     uploadDir:path.join(__dirname,'public/upload/'), // 设置文件上传目录
     keepExtensions: true,    // 保持文件的后缀
