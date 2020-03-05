@@ -8,6 +8,14 @@ const pool = mysql.createPool({
     database: 'nodesql',
 });
 
+// const pool = mysql.createPool({
+//     host: '148.70.1.147',
+//     port: '3306',
+//     user: 'ygdb',
+//     password: 'GHKKW4LTp6PxaE4x',
+//     database: 'ygdb',
+// });
+
 /**
  * 数据库连接池
  * @param {string} sql sql语句

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Koa框架博客案例</title>
+	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+	<link rel="stylesheet" href="./index.css">
+	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+</head>
+
+<body>
+	<header>
+		<div class="user_name">
+			欢迎注册登录^_^
+		</div>
+		<div class="message">登录成功</div>
+		<div class="user_right">
+			<div class="has_user">
+				<a href="/posts">全部文章</a>
+				<a href="/create">发表文章</a>
+				<span class="signout">登出</span>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<ul class="posts spost">
+			<li>
+				<div class="author">
+					<span title="标题1"><a href="/posts?author=root ">author: root</a></span>
+					<span>评论数：15</span>
+					<span>浏览量：100</span>
+				</div>
+				<div class="comment_pv">
+					<span>2020-3-4 10：45</span>
+				</div>
+				<a href="/posts/1">
+					<div class="title">
+						<img class="userAvator" src="./images/9rmnioj10j1583227803037.png" alt="avator">
+						Tomcat是一个轻量级web应用服务器
+					</div>
+					<div class="content markdown">
+						Tomcat是一个轻量级web应用服务器，具有处理HTML页面的功能，另外它还是一个Servlet和JSP容器；能接收http请求动态响应数据。本章将给大家介绍怎么从无到有实现一款迷你版tomcat.
+					</div>
+				</a>
+				<div class="edit">
+					<p><a href="1/edit">编辑</a></p>
+					<p><a class="delete_post">删除</a></p>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="comment_wrap">
+
+		<form class="form" method="post" action="/1">
+			<textarea id="spContent" name="content" cols="82"></textarea>
+			<div class="submit">发表留言</div>
+		</form>
+
+		<div class="comment_list markdown">
+
+			<div class="cmt_lists">
+				<div class="cmt_content">
+					<div class="userMsg">
+						<img src="./images/9rmnioj10j1583227803037.png" alt="avator"><span>admin</span>
+					</div>
+					<div class="cmt_detail">
+						评论Tomcat是一个轻量级web应用服务器
+					</div>
+					<span class="cmt_time">2020-3-4 :12:14</span>
+					<span class="cmt_name">
+
+						<a class="delete_comment" href="javascript:delete_comment(1);"> 删除</a>
+
+					</span>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- <p class="tips">还没有评论，赶快去评论吧！</p> -->
+
+		<div style="margin-top: 30px" class="pagination" id="page"></div>
+	</div>
+	<script src="/pagination.js"></script>
+	<script>
+		// 删除文章
+
+		// 评论
+
+		// 删除评论
+	</script>

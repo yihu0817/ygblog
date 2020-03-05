@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入css文件 -->
+    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- 自定义编辑器工具栏 -->
+    <div id="toolbar">
+        <button class="ql-bold">Bold</button>
+        <button class="ql-italic">Italic</button>
+    </div>
+
+    <!-- 创建编辑容器 -->
+    <div id="editor">
+        <p>Hello World!</p>
+    </div>
+
+    <!-- 引入js文件 -->
+    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+
+    <!-- 初始化编辑器，snow主题 -->
+    <script>
+        var editor = new Quill('#editor', {
+            modules: {
+                toolbar: '#toolbar'
+            },
+            theme: 'snow'
+        });
+    </script>
+</body>
+
+</html>

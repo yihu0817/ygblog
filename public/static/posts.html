@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koa框架博客案例</title>
+	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+	<link rel="stylesheet" href="./index.css">
+	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+		<div class="user_name">
+			欢迎注册登录^_^
+		</div>
+		<div class="message">登录成功</div>
+		<div class="user_right">
+			<div class="has_user">
+				<a href="/posts">全部文章</a>
+				<a href="/create">发表文章</a>
+				<span class="signout">登出</span>
+			</div>
+		</div>
+	</header>
+    <div class="container">
+            <ul class="posts">
+                    <li>
+                        <div class="author">
+                            <span title="标题1"><a href="/posts?author=root">author: root</a></span>
+                            <span>评论数：15</span>
+                            <span>浏览量：100</span>
+                        </div>
+                        <div class="comment_pv">
+                            <span>2020-3-4 20:01</span>
+                        </div>
+                        <a href="/posts/1">
+                            <div class="title">
+                                <img class="userAvator" src="images/9rmnioj10j1583227803037.png"  alt="avator">
+                                标题1
+                            </div>
+                            <div class="content-index markdown">
+                                内容1
+                            </div>
+                        </a>
+                    </li>
+
+                    <li>
+                        <div class="author">
+                            <span title="标题2"><a href="/posts?author=root">author: root</a></span>
+                            <span>评论数：15</span>
+                            <span>浏览量：100</span>
+                        </div>
+                        <div class="comment_pv">
+                            <span>2020-3-4 20:01</span>
+                        </div>
+                        <a href="/posts/2">
+                            <div class="title">
+                                <img class="userAvator" src="images/9rmnioj10j1583227803037.png"  alt="avator">
+                                标题2
+                            </div>
+                            <div class="content-index markdown">
+                                内容2
+                            </div>
+                        </a>
+                    </li>
+            </ul>
+
+            <!-- <p class="tips">暂时没有文章，快去前往发表吧</p> -->
+            <div style="margin-top: 30px" class="pagination" id="page"></div>	
+        </div>
+</body>
+</html>

@@ -1,54 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koa框架博客案例</title>
-	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
-	<link rel="stylesheet" href="../css/index.css">
-	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 </head>
+
 <body>
     <header>
-		<div class="user_name">
-			欢迎注册登录^_^
-		</div>
-		<div class="message">登录成功</div>
-		<div class="user_right">
-			<div class="has_user">
+        <div class="user_name">
+            欢迎注册登录^_^
+        </div>
+        <div class="message">登录成功</div>
+        <div class="user_right">
+            <!-- <div class="has_user">
 				<a href="/posts">全部文章</a>
 				<a href="/create">发表文章</a>
 				<span class="signout">登出</span>
-			</div>
-		</div>
-    </header>
-    
-    <div class="container">
-            <ul class="posts">
-                    <% for(let i =0; i < list.length; i++) { %>
-                    <li>
-                        <div class="author">
-                            <span title="<%= list[i].title%>"></span>
-                            <span>评论数：<%= list[i].comments %></span>
-                            <span>浏览量：<%= list[i].pv %></span>
-                        </div>
-                        <div class="comment_pv">
-                            <span><%= list[i].moments %></span>
-                        </div>
-                        <a href="/posts/1">
-                            <div class="title">
-                                <img class="userAvator" src="../images/<%= list[i].avator%>"  alt="avator">
-                                <%- list[i].title%>
-                            </div>
-                            <div class="content-index markdown">
-                                <%- list[i].content%>
-                            </div>
-                        </a>
-                    </li>
-                    <% } %>
-
-                  
-            </ul>
+            </div> -->
+            <div class="none_user has_user">
+                <a class="active" href="/posts">全部文章</a>
+                <a href="/register">注册</a>
+                <a href="/signin">登录</a>
+            </div>
         </div>
+    </header>
+    <div class="container">
+        <ul class="posts">
+            <% for(let i =0; i < list.length; i++) { %>
+            <li>
+                <div class="author">
+                    <span title="<%= list[i].title%>"></span>
+                    <span>评论数：<%= list[i].comments %></span>
+                    <span>浏览量：<%= list[i].pv %></span>
+                </div>
+                <div class="comment_pv">
+                    <span><%= list[i].moments %></span>
+                </div>
+                <a href="/posts/1">
+                    <div class="title">
+                        <img class="userAvator" src="../images/<%= list[i].avator%>" alt="avator">
+                        <%- list[i].title%>
+                    </div>
+                    <div class="content-index markdown">
+                        <%- list[i].content%>
+                    </div>
+                </a>
+            </li>
+            <% } %>
+
+
+        </ul>
+    </div>
 </body>
+
 </html>

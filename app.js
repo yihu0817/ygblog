@@ -1,9 +1,12 @@
 const Koa = require('koa')
+const path = require('path');
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
+// const bodyparser = require('koa-bodyparser')
+// koa-body中间件 可以接收post请求和multipart/form-data类型参数
+const koaBody = require('koa-body'); 
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
@@ -14,9 +17,27 @@ const post = require('./routes/post');
 onerror(app)
 
 // middlewares
-app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
-}))
+// app.use(bodyparser({
+//   enableTypes:['json', 'form', 'text']
+// }))
+
+//配置koaBody
+app.use(koaBody({
+  multipart:true, // 支持文件上传
+  encoding:'gzip', //压缩传输内容
+  formidable:{
+    uploadDir:path.join(__dirname,'public/upload/'), // 设置文件上传目录
+    keepExtensions: true,    // 保持文件的后缀
+    maxFieldsSize:2 * 1024 * 1024, // 文件上传大小
+    onFileBegin:(name,file) => { // 文件上传前的设置
+      // console.log(`name: ${name}`);
+      // console.log(file);
+    },
+  }
+}));
+
+
+
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
