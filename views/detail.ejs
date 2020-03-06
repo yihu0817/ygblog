@@ -13,7 +13,7 @@
 <body>
 	<header>
         <div class="user_name">
-            <% if(userInfo) {%> <%=userInfo%>  <% } else { %>  欢迎注册登录^_^' <% } %>
+            <% if(userInfo) {%> <%=userInfo.name%>  <% } else { %>  欢迎注册登录^_^' <% } %>
         </div>
         <div class="message">登录成功</div>
         <div class="user_right">
@@ -21,7 +21,7 @@
             <% if(userInfo) {%>
             <div class="has_user">
                 <a href="/post/list">全部文章</a>
-                <a href="/create">发表文章</a>
+                <a href="/post/create">发表文章</a>
                 <span class="signout">登出</span>
             </div>
             <% } else {%>

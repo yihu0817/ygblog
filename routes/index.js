@@ -51,13 +51,18 @@ router.post('/login', async ctx => {
     let username = ctx.request.body.username,
         password = ctx.request.body.password;
 
-    const sql = 'SELECT count(*) AS count FROM users WHERE name=? AND pass = ?';
+    const sql = 'SELECT id,name,avator  FROM users WHERE name=? AND pass = ?';
     const params = [username,password];
     const result = await queryDB(sql,params);
     console.log(result);
-    if(result[0].count >=1) {
+    if(result.length >= 1) {
        //登录成功，保存登录状态信息到session对象
-       ctx.session.userInfo = username;
+      //  {
+      //   id: 6,
+      //   name: 'admin',
+      //   avator: 'upload_b5a40b55b0616932d1783c339766b8e5.jpg'
+      // }
+       ctx.session.userInfo = result[0];
        ctx.body = {code:1,msg:'登录成功!'};
     }else {
       ctx.body = {code:-1, msg:'用户名不存在!'};

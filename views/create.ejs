@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koa框架博客案例</title>
+    <link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="user_name">
+            <% if(userInfo) {%> <%=userInfo.name%>  <% } else { %>  欢迎注册登录^_^' <% } %>
+        </div>
+        <div class="message">登录成功</div>
+        <div class="user_right">
+
+            <% if(userInfo) {%>
+            <div class="has_user">
+                <a href="/post/list">全部文章</a>
+                <a href="/post/create">发表文章</a>
+                <span class="signout">登出</span>
+            </div>
+            <% } else {%>
+            <div class="none_user has_user">
+                <a class="active" href="/posts">全部文章</a>
+                <a href="/register">注册</a>
+                <a href="/login">登录</a>
+            </div>
+            <% } %>
+        </div>
+    </header>
+
+    <div class="container">
+        <form style="width:100%" method="post" class="form create">
+            <div>
+                <label>标题：</label>
+                <input placeholder="请输入标题" type="text" name="title">
+            </div>
+            <div>
+                <label>内容：</label>
+                <textarea placeholder="请输入内容" name="content" id="" cols="42" rows="10"></textarea>
+            </div>
+            <div class="submit">发表</div>
+        </form>
+    </div>
+
+    <script>
+        $('.submit').bind('click', () => {
+            const title = $('input[name="title"]').val();
+            const content = $('textarea[name="content"]').val();
+            
+            //调服务端接口
+            $.ajax({
+                url:'/post/create',
+                method: 'POST',
+                dataType: 'json',
+                data: {title, content},
+                success: function(result){
+                    if(result.code == 1)
+                        window.location.href = '/post/list'
+                },
+                error: function(err){
+                    alert('err :'+err);
+                }
+            })
+            
+        })
+    </script>
+</body>
+
+</html>
