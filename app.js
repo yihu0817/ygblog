@@ -8,7 +8,7 @@ const onerror = require('koa-onerror')
 // koa-body中间件 可以接收post请求和multipart/form-data类型参数
 const koaBody = require('koa-body'); 
 const logger = require('koa-logger')
-
+const Session = require('koa-session');
 const index = require('./routes/index')
 const users = require('./routes/users')
 const post = require('./routes/post');
@@ -37,6 +37,18 @@ app.use(koaBody({
 }));
 
 
+//配置session的中间件
+app.keys = ['secret-web-yuguo'];   /**cookie的签名 默认*/
+const CONFIG = {
+    key: 'koa:sess', /** 默认 */
+    maxAge: 1000*60*60*24,  /**  cookie的过期时间 */
+    overwrite: true, /** 默认 可以重写过期时间 */
+    httpOnly: true, /**  true表示只有服务器端可以获取 cookie */
+    signed: true, /** 默认 签名 */
+    rolling: true, /** 在每次请求时强行设置 cookie，这将重置 cookie 过期时间（默认：false） */
+    renew: false, /** 当用户进行浏览器操作时刷新 cookie 过期时间 */
+};
+app.use(Session(CONFIG, app));
 
 app.use(json())
 app.use(logger())

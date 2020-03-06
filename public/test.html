@@ -6,7 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- 引入css文件 -->
-    <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+    <!-- // 代码高亮采用dracula主题，可去highlight官网配置 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" rel="stylesheet">
+    <!-- // 采用snow主题 -->
+    <link href="../css/quill.snow.css" rel="stylesheet">
+    <!-- // highlight.js的主要js文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <!-- // quill的主要js文件 -->
+    <script src="../js/quill.min.js"></script>
+    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -18,21 +26,81 @@
     </div>
 
     <!-- 创建编辑容器 -->
-    <div id="editor">
-        <p>Hello World!</p>
+    <div id="editor" style="height: 500px;">
+        <p >Hello World!</p>
     </div>
-
-    <!-- 引入js文件 -->
-    <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-
+    <button onclick="sub_post()">获取内容</button>
+    <input type="text" name="content" id="">
     <!-- 初始化编辑器，snow主题 -->
     <script>
-        var editor = new Quill('#editor', {
+        var toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'], // 切换按钮
+            ['blockquote', 'code-block'],
+
+            [{
+                'header': 1
+            }, {
+                'header': 2
+            }], // 用户自定义按钮值
+            [{
+                'list': 'ordered'
+            }, {
+                'list': 'bullet'
+            }],
+            [{
+                'script': 'sub'
+            }, {
+                'script': 'super'
+            }], // 上标/下标
+            [{
+                'indent': '-1'
+            }, {
+                'indent': '+1'
+            }], // 减少缩进/缩进
+            [{
+                'direction': 'rtl'
+            }], // 文本下划线
+
+            [{
+                'size': ['small', false, 'large', 'huge']
+            }], // 用户自定义下拉
+            [{
+                'header': [1, 2, 3, 4, 5, 6, false]
+            }],
+
+            [{
+                'color': []
+            }, {
+                'background': []
+            }], // 主题默认下拉，使用主题提供的值
+            [{
+                'font': []
+            }],
+            [{
+                'align': []
+            }],
+
+            ['clean'] // 清除格式
+        ];
+
+        var quill = new Quill('#editor', {
             modules: {
-                toolbar: '#toolbar'
+                toolbar: toolbarOptions
             },
             theme: 'snow'
         });
+    </script>
+    <script>
+        // 提交表单
+        function sub_post() {
+            var html = document.querySelector('#editor').children[0].innerHTML;
+            console.log(html);
+            html = '<div class="ql-container ql-snow"><div class="ql-editor">' + html + "</div></div>";
+            console.log(html);
+            $('[name=content]').val(html);
+
+            // $("#submitForm").submit();
+        }
     </script>
 </body>
 

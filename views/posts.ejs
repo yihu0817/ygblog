@@ -13,20 +13,24 @@
 <body>
     <header>
         <div class="user_name">
-            欢迎注册登录^_^
+            <% if(userInfo) {%> <%=userInfo%>  <% } else { %>  欢迎注册登录^_^' <% } %>
         </div>
         <div class="message">登录成功</div>
         <div class="user_right">
-            <!-- <div class="has_user">
-				<a href="/posts">全部文章</a>
-				<a href="/create">发表文章</a>
-				<span class="signout">登出</span>
-            </div> -->
+
+            <% if(userInfo) {%>
+            <div class="has_user">
+                <a href="/posts">全部文章</a>
+                <a href="/create">发表文章</a>
+                <span class="signout">登出</span>
+            </div>
+            <% } else {%>
             <div class="none_user has_user">
                 <a class="active" href="/posts">全部文章</a>
                 <a href="/register">注册</a>
-                <a href="/signin">登录</a>
+                <a href="/login">登录</a>
             </div>
+            <% } %>
         </div>
     </header>
     <div class="container">
@@ -41,7 +45,7 @@
                 <div class="comment_pv">
                     <span><%= list[i].moments %></span>
                 </div>
-                <a href="/posts/1">
+                <a href="/post/detail/<%= list[i].id %>">
                     <div class="title">
                         <img class="userAvator" src="../images/<%= list[i].avator%>" alt="avator">
                         <%- list[i].title%>
@@ -56,6 +60,26 @@
 
         </ul>
     </div>
+    <script>
+        $('.signout').bind('click',()=>{
+            $.ajax({
+                url:'/logout',
+                method: 'get',
+                dataType: 'json', //服务器返回数据类型
+                contentType: 'application/x-www-form-urlencoded',//客户端传输数据类型
+                
+                success: function(result){
+                    if(result.code == 1){
+                        //页面刷新
+                        window.location.href = '/post/list';
+                    }
+                },
+                error: function(error){
+                    alert(error);
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>

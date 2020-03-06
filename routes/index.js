@@ -47,21 +47,32 @@ router.get('/login', async ctx => {
  * 登录提交
  */
 router.post('/login', async ctx => {
+    console.log("ctx.request.body  :"+ JSON.stringify(ctx.request.body));
     let username = ctx.request.body.username,
         password = ctx.request.body.password;
 
-    //{ "{\"username\":\"test1\",\"password\":\"123\"}":""}
-    console.log('===========  username: '+username + " password : "+password + "  ctx.request.body  :"+ JSON.stringify(ctx.request.body));
-    const sql = 'SELECT count(*) FROM users WHERE name=? AND pass = ?';
+    const sql = 'SELECT count(*) AS count FROM users WHERE name=? AND pass = ?';
     const params = [username,password];
-    const count = await queryDB(sql,params);
-    if(count >=1) {
+    const result = await queryDB(sql,params);
+    console.log(result);
+    if(result[0].count >=1) {
+       //登录成功，保存登录状态信息到session对象
+       ctx.session.userInfo = username;
        ctx.body = {code:1,msg:'登录成功!'};
     }else {
       ctx.body = {code:-1, msg:'用户名不存在!'};
     }
 
 });
+
+/**
+ * 登出
+ */
+router.get('/logout', async ctx => {
+   ctx.session.userInfo = null;
+   ctx.body = {code:1, msg:'登出成功'};
+});
+
 
 
 module.exports = router

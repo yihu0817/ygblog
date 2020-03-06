@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Koa框架博客案例</title>
+	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+	<link rel="stylesheet" href="../../css/index.css">
+	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+</head>
+
+<body>
+	<header>
+        <div class="user_name">
+            <% if(userInfo) {%> <%=userInfo%>  <% } else { %>  欢迎注册登录^_^' <% } %>
+        </div>
+        <div class="message">登录成功</div>
+        <div class="user_right">
+
+            <% if(userInfo) {%>
+            <div class="has_user">
+                <a href="/post/list">全部文章</a>
+                <a href="/create">发表文章</a>
+                <span class="signout">登出</span>
+            </div>
+            <% } else {%>
+            <div class="none_user has_user">
+                <a class="active" href="/post/list">全部文章</a>
+                <a href="/register">注册</a>
+                <a href="/login">登录</a>
+            </div>
+            <% } %>
+        </div>
+	</header>
+	
+	<div class="container">
+		<ul class="posts spost">
+			<li>
+				<div class="author">
+					<span title="标题1"></span>
+					<span>评论数：<%= post[0].comments %></span>
+					<span>浏览量：<%= post[0].pv %></span>
+				</div>
+				<div class="comment_pv">
+					<span><%= post[0].moment %></span>
+				</div>
+				<a href="/posts/1">
+					<div class="title">
+						<img class="userAvator" src="../../images/<%= post[0].avator %>" alt="avator">
+						<%- post[0].title %>
+					</div>
+					<div class="content markdown">
+						<%- post[0].content %>
+					</div>
+				</a>
+				<div class="edit">
+					<p><a href="#">编辑</a></p>
+					<p><a class="delete_post">删除</a></p>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="comment_wrap">
+		<% if(userInfo) { %>
+		<form class="form" method="post" action="/1">
+			<textarea id="spContent" name="content" cols="82"></textarea>
+			<div class="submit">发表留言</div>
+		</form>
+		<% } else { %>
+			<p class="tips">登录之后才能发表评论</p>
+		<% } %>
+		<div class="comment_list markdown">
+
+			<div class="cmt_lists">
+				<% comment.forEach(item => { %>
+					<div class="cmt_content">
+						<div class="userMsg">
+							<img src="../../images/<%= item.avator %>" alt="avator"><span>admin</span>
+						</div>
+						<div class="cmt_detail">
+							<%- item.content %>
+						</div>
+						<span class="cmt_time"><%= item.moment %></span>
+						<span class="cmt_name">
+							<%- item.name %>
+							<a class="delete_comment" href="javascript:delete_comment(<%= item.id %>);"> 删除</a>
+	
+						</span>
+					</div>
+
+				<% })%>
+				
+			</div>
+
+		</div>
+
+		<!-- <p class="tips">还没有评论，赶快去评论吧！</p> -->
+
+		<div style="margin-top: 30px" class="pagination" id="page"></div>
+	</div>
+	<script src="/pagination.js"></script>
+	<script>
+        $('.signout').bind('click',()=>{
+            $.ajax({
+                url:'/logout',
+                method: 'get',
+                dataType: 'json', //服务器返回数据类型
+                contentType: 'application/x-www-form-urlencoded',//客户端传输数据类型
+                
+                success: function(result){
+                    if(result.code == 1){
+                        //页面刷新
+                        window.location.href = '/post/list';
+                    }
+                },
+                error: function(error){
+                    alert(error);
+                }
+            })
+        })
+    </script>

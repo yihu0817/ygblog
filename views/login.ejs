@@ -18,16 +18,19 @@
 		</div>
 		<div class="message">登录成功</div>
 		<div class="user_right">
+	
 			<!-- <div class="has_user">
 				<a href="/posts">全部文章</a>
 				<a href="/create">发表文章</a>
 				<span class="signout">登出</span>
 			</div> -->
+	
 			<div class="none_user has_user">
-				<a class="active" href="/posts">全部文章</a>
+				<a class="active" href="/post/list">全部文章</a>
 				<a href="/register">注册</a>
-				<a href="/signin">登录</a>
+				<a href="/login">登录</a>
 			</div>
+
 		</div>
 	</header>
 	<div class="container">
@@ -49,56 +52,60 @@
 			const password = $('#password').val();
 			console.log(`username : ${username} password : ${password}`);
 
-			$.ajax({
-					url: "/login",
-					data: $('.form').serialize(),
-					type: "POST",
-					cache: false,
-					dataType: 'json',
-					success: function (msg) {
-					    if (msg.code != 1) {
-							window.location.href = '/post/list'
-					    } else{
-							alert('登录失败 ' + JSON.stringify(msg) );        	
-					    }
-					},
-					error: function (e) {
-						alert('异常'+e);
-					}
-				})			
-
-
-
 			// $.ajax({
-			// 	type: 'POST', // 规定请求的类型（GET 或 POST）
-			// 	url:'/login', // 请求的url地址
-			// 	dataType: 'json', //预期的服务器响应的数据类型 
-			// 	contentType : 'application/json',//添加这句话
-			// 	// data: JSON.stringify({username,password}), //规定要发送到服务器的数据   //server error Error: invalid JSON, only supports object and array
-			// 	success: function (result) { // 当请求成功时运行的函数
-			// 		alert('success '+result);
+			// 	url: "/login",
+			// 	data: $('.form').serialize(),
+			// 	type: "POST",
+			// 	cache: false,
+			// 	dataType: 'json',
+			// 	success: function (msg) {
+			// 		if (msg.code != 1) {
+			// 			window.location.href = '/post/list'
+			// 		} else {
+			// 			alert('登录失败 ' + JSON.stringify(msg));
+			// 		}
 			// 	},
-			// 	error: function (result) { //失败的函数
-			// 		alert('error '+ JSON.stringify(result) );
-			// 	},
+			// 	error: function (e) {
+			// 		alert('异常' + e);
+			// 	}
 			// })
+
+
+			$.ajax({
+				type: 'POST', // 规定请求的类型（GET 或 POST）
+				url:'/login', // 请求的url地址
+				dataType: 'json', //预期的服务器响应的数据类型 
+				// contentType : 'application/x-www-form-urlencoded',//这句话为默认值可以不写, 表示客户端以名称值对传输数据， 以json格式传数据需设置为:application/json
+				contentType : 'application/json',
+				data: JSON.stringify({username,password}), // server error Error: invalid JSON, only supports object and array
+				// data: `username=${username}&password=${password}`,
+				success: function (msg) { // 当请求成功时运行的函数
+					if (msg.code == 1) {
+						window.location.href = '/post/list'
+					} else {
+						alert('登录失败 ' + JSON.stringify(msg));
+					}
+				},
+				error: function (result) { //失败的函数
+					alert('error '+ JSON.stringify(result) );
+				},
+			})
 
 			// axios({
 			// 	url: '/login',
 			// 	method: 'POST', 
-			// 	data: JSON.stringify({username:username,password:password})
+			// 	// data: {username:username,password:password}
+			// 	data: `username=${username}&password=${password}`
 			// }).then(res => {
-			// 	console.log(res.data);
 			// 	if (res.data.code == 1) {
 			// 		alert(res.data.msg);
 			// 	} else {
 			// 		alert(res.data.msg);
 			// 	}
-
 			// }).catch(err => {
 			// 	console.log(err);
 			// });
-			
+
 		})
 	</script>
 </body>
