@@ -6,12 +6,36 @@ router.prefix('/post'); //前缀
  * 所有文章列表
  * /post/list
  */
+// router.get('/list', async ctx => {
+//     const sql = 'SELECT * FROM posts LIMIT 0,5';
+//     const result = await queryDB(sql);
+//     const userInfo = ctx.session.userInfo;
+//     await ctx.render('posts',{list:result,userInfo:userInfo});
+// });
+
+/**
+ * 所有文章分页实现
+ */
 router.get('/list', async ctx => {
-    const sql = 'SELECT * FROM posts';
-    const result = await queryDB(sql);
+    let pageNo = ctx.query.pageno || 1,
+        pageSize = 5, //每页记录条数
+        totalNumber = 0; //总页数
+
+    const sqlTotal = 'SELECT COUNT(*) AS count FROM posts';
+    let resultTotal = await queryDB(sqlTotal);
+    let total = resultTotal[0].count; //总记录条数
+    totalNumber =  Math.ceil(total/pageSize) //有小数,整数部份加一 
+    console.log('totalNumber',totalNumber);
+
+    const sql = 'SELECT * FROM posts LIMIT ?,?';
+    const startIndex = (pageNo-1) * pageSize; //起始序号
+    const params = [startIndex,pageSize]
+    const result = await queryDB(sql,params);
+
     const userInfo = ctx.session.userInfo;
-    await ctx.render('posts',{list:result,userInfo:userInfo});
+    await ctx.render('posts',{list:result,userInfo:userInfo, page: {totalPages:totalNumber, currentPage:pageNo}});
 });
+
 
 /**
  * 文章详情

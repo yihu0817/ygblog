@@ -7,7 +7,9 @@
     <title>Koa框架博客案例</title>
     <link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
     <link rel="stylesheet" href="../css/index.css">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script src="../js/jqPaginator.js"></script>
 </head>
 
 <body>
@@ -56,9 +58,9 @@
                 </a>
             </li>
             <% } %>
-
-
         </ul>
+        <!-- 分页显示位置 -->
+        <div id="pagination2" class="pagination">  </div>
     </div>
     <script>
         $('.signout').bind('click',()=>{
@@ -79,6 +81,26 @@
                 }
             })
         })
+
+
+        let totalPages = <%=page.totalPages%>;
+        let currentPage = <%=page.currentPage%>;
+        console.log(`totalPages : ${totalPages} , currentPage : ${currentPage}`);
+
+        $.jqPaginator('#pagination2', {
+	        totalPages: totalPages,
+	        visiblePages: 3,
+	        currentPage: currentPage,
+	        first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+	        prev: '<li class="prev"><a href="javascript:;">前一页</a></li>',
+	        next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+    		last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+	        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+	        onPageChange: function (num, type) {
+                if(type == 'change')
+	                 window.location.href = '/post/list?pageno='+num;
+	        }
+	    });
     </script>
 </body>
 
