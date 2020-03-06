@@ -13,28 +13,9 @@
 </head>
 
 <body>
-    <header>
-        <div class="user_name">
-            <% if(userInfo) {%> <%=userInfo.name%>  <% } else { %>  欢迎注册登录^_^' <% } %>
-        </div>
-        <div class="message">登录成功</div>
-        <div class="user_right">
+    <!-- 头部 -->
+    <%- include('header', {}); %>
 
-            <% if(userInfo) {%>
-            <div class="has_user">
-                <a href="/posts">全部文章</a>
-                <a href="/post/create">发表文章</a>
-                <span class="signout">登出</span>
-            </div>
-            <% } else {%>
-            <div class="none_user has_user">
-                <a class="active" href="/posts">全部文章</a>
-                <a href="/register">注册</a>
-                <a href="/login">登录</a>
-            </div>
-            <% } %>
-        </div>
-    </header>
     <div class="container">
         <ul class="posts">
             <% for(let i =0; i < list.length; i++) { %>
@@ -60,47 +41,31 @@
             <% } %>
         </ul>
         <!-- 分页显示位置 -->
-        <div id="pagination2" class="pagination">  </div>
+        <div id="pagination2" class="pagination"> </div>
     </div>
+
+    <%- include('footer', {}); %>
+
     <script>
-        $('.signout').bind('click',()=>{
-            $.ajax({
-                url:'/logout',
-                method: 'get',
-                dataType: 'json', //服务器返回数据类型
-                contentType: 'application/x-www-form-urlencoded',//客户端传输数据类型
-                
-                success: function(result){
-                    if(result.code == 1){
-                        //页面刷新
-                        window.location.href = '/post/list';
-                    }
-                },
-                error: function(error){
-                    alert(error);
-                }
-            })
-        })
-
-
-        let totalPages = <%=page.totalPages%>;
-        let currentPage = <%=page.currentPage%>;
+       
+        let totalPages = <%= page.totalPages %>;
+        let currentPage = <%= page.currentPage %> ;
         console.log(`totalPages : ${totalPages} , currentPage : ${currentPage}`);
 
         $.jqPaginator('#pagination2', {
-	        totalPages: totalPages,
-	        visiblePages: 3,
-	        currentPage: currentPage,
-	        first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
-	        prev: '<li class="prev"><a href="javascript:;">前一页</a></li>',
-	        next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
-    		last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
-	        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
-	        onPageChange: function (num, type) {
-                if(type == 'change')
-	                 window.location.href = '/post/list?pageno='+num;
-	        }
-	    });
+            totalPages: totalPages,
+            visiblePages: 3,
+            currentPage: currentPage,
+            first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:;">前一页</a></li>',
+            next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+            onPageChange: function (num, type) {
+                if (type == 'change')
+                    window.location.href = '/post/list?pageno=' + num;
+            }
+        });
     </script>
 </body>
 

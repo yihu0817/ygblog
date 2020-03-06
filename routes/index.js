@@ -3,9 +3,7 @@ const moment = require('moment');
 const queryDB = require('../config/promiseDb');
 
 router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: '雨果博客'
-  })
+    await ctx.redirect('/post/list');
 })
 
 /**

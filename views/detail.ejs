@@ -11,29 +11,9 @@
 </head>
 
 <body>
-	<header>
-        <div class="user_name">
-            <% if(userInfo) {%> <%=userInfo.name%>  <% } else { %>  欢迎注册登录^_^' <% } %>
-        </div>
-        <div class="message">登录成功</div>
-        <div class="user_right">
+	<!-- 头部 -->
+	<%- include('header', {}); %>
 
-            <% if(userInfo) {%>
-            <div class="has_user">
-                <a href="/post/list">全部文章</a>
-                <a href="/post/create">发表文章</a>
-                <span class="signout">登出</span>
-            </div>
-            <% } else {%>
-            <div class="none_user has_user">
-                <a class="active" href="/post/list">全部文章</a>
-                <a href="/register">注册</a>
-                <a href="/login">登录</a>
-            </div>
-            <% } %>
-        </div>
-	</header>
-	
 	<div class="container">
 		<ul class="posts spost">
 			<li>
@@ -65,25 +45,25 @@
 		<% if(userInfo) { %>
 		<form class="form" method="post" action="/1">
 			<textarea id="spContent" name="content" cols="82"></textarea>
-			<div class="submit">发表留言</div>
+			<div class="submit">发表评论</div>
 		</form>
 		<% } else { %>
 			<p class="tips">登录之后才能发表评论</p>
 		<% } %>
 		<div class="comment_list markdown">
-
+			 
+		
 			<div class="cmt_lists">
 				<% comment.forEach(item => { %>
 					<div class="cmt_content">
 						<div class="userMsg">
-							<img src="../../images/<%= item.avator %>" alt="avator"><span>admin</span>
+							<img src="../../upload/<%= item.avator %>" alt="avator"><span><%- item.name %></span>
 						</div>
 						<div class="cmt_detail">
 							<%- item.content %>
 						</div>
 						<span class="cmt_time"><%= item.moment %></span>
 						<span class="cmt_name">
-							<%- item.name %>
 							<a class="delete_comment" href="javascript:delete_comment(<%= item.id %>);"> 删除</a>
 	
 						</span>
@@ -94,29 +74,32 @@
 			</div>
 
 		</div>
-
-		<!-- <p class="tips">还没有评论，赶快去评论吧！</p> -->
-
+		<% if(comment.length <= 0) { %>
+		  <p class="tips">还没有评论，赶快去评论吧！</p>
+		<% } %>
 		<div style="margin-top: 30px" class="pagination" id="page"></div>
 	</div>
 	<script src="/pagination.js"></script>
 	<script>
-        $('.signout').bind('click',()=>{
-            $.ajax({
-                url:'/logout',
-                method: 'get',
-                dataType: 'json', //服务器返回数据类型
-                contentType: 'application/x-www-form-urlencoded',//客户端传输数据类型
-                
-                success: function(result){
-                    if(result.code == 1){
-                        //页面刷新
-                        window.location.href = '/post/list';
-                    }
-                },
-                error: function(error){
-                    alert(error);
-                }
-            })
-        })
+       
+		const postId = <%= post[0].id %>;
+		//发评论
+		$('.submit').bind('click', ()=>{
+			const comment = $('#spContent').val();
+			$.ajax({
+				url: '/comment/create',
+				method: 'post',
+				dataType: 'json',
+				data: `comment=${comment}&postId=${postId}`,
+				success: function(result){
+					if(result.code == 1){
+						//发表评论成功 ，刷新文章评论
+						window.location.href = '/post/detail/'+postId
+					}
+				},
+				error: function(error){
+					alert(error);
+				}
+			});
+		})
     </script>

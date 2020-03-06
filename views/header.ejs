@@ -1,0 +1,43 @@
+<header>
+    <div class="user_name">
+        <% if(userInfo) {%> 当前用户：<%=userInfo.name%> <% } else { %> 欢迎注册登录^_^' <% } %>
+    </div>
+    <div class="message">登录成功</div>
+    <div class="user_right">
+
+        <% if(userInfo) {%>
+        <div class="has_user">
+            <a href="/post/list">全部文章</a>
+            <a href="/post/create">发表文章</a>
+            <span class="signout">登出</span>
+        </div>
+        <% } else {%>
+        <div class="none_user has_user">
+            <a class="active" href="/post/list">全部文章</a>
+            <a href="/register">注册</a>
+            <a href="/login">登录</a>
+        </div>
+        <% } %>
+    </div>
+</header>
+
+<script>
+    $('.signout').bind('click', () => {
+        $.ajax({
+            url: '/logout',
+            method: 'get',
+            dataType: 'json', //服务器返回数据类型
+            contentType: 'application/x-www-form-urlencoded', //客户端传输数据类型
+
+            success: function (result) {
+                if (result.code == 1) {
+                    //页面刷新
+                    window.location.href = '/post/list';
+                }
+            },
+            error: function (error) {
+                alert(error);
+            }
+        })
+    })
+</script>

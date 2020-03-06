@@ -12,27 +12,9 @@
 </head>
 
 <body>
-	<header>
-		<div class="user_name">
-			欢迎注册登录^_^
-		</div>
-		<div class="message">登录成功</div>
-		<div class="user_right">
+	<!-- 头部 -->
+	<%- include('header', {userInfo:null}); %>
 	
-			<!-- <div class="has_user">
-				<a href="/posts">全部文章</a>
-				<a href="/create">发表文章</a>
-				<span class="signout">登出</span>
-			</div> -->
-	
-			<div class="none_user has_user">
-				<a class="active" href="/post/list">全部文章</a>
-				<a href="/register">注册</a>
-				<a href="/login">登录</a>
-			</div>
-
-		</div>
-	</header>
 	<div class="container">
 		<form class="form create" method="post ">
 			<div>
@@ -73,11 +55,14 @@
 
 			$.ajax({
 				type: 'POST', // 规定请求的类型（GET 或 POST）
-				url:'/login', // 请求的url地址
+				url: '/login', // 请求的url地址
 				dataType: 'json', //预期的服务器响应的数据类型 
 				// contentType : 'application/x-www-form-urlencoded',//这句话为默认值可以不写, 表示客户端以名称值对传输数据， 以json格式传数据需设置为:application/json
-				contentType : 'application/json',
-				data: JSON.stringify({username,password}), // server error Error: invalid JSON, only supports object and array
+				contentType: 'application/json',
+				data: JSON.stringify({
+					username,
+					password
+				}), // server error Error: invalid JSON, only supports object and array
 				// data: `username=${username}&password=${password}`,
 				success: function (msg) { // 当请求成功时运行的函数
 					if (msg.code == 1) {
@@ -87,7 +72,7 @@
 					}
 				},
 				error: function (result) { //失败的函数
-					alert('error '+ JSON.stringify(result) );
+					alert('error ' + JSON.stringify(result));
 				},
 			})
 
