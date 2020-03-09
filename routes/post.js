@@ -16,9 +16,10 @@ router.get('/list', async ctx => {
     let resultTotal = await queryDB(sqlTotal);
     let total = resultTotal[0].count; //总记录条数
     totalNumber =  Math.ceil(total/pageSize) //有小数,整数部份加一 
-    console.log('totalNumber',totalNumber);
 
-    const sql = 'SELECT * FROM posts LIMIT ?,?';
+    // const sql = 'SELECT id,name,title,content,md,uid,moment,comments,pv,avator FROM posts LIMIT ?,?';
+    const sql = 'SELECT users.name, users.avator, posts.id, title,content,md, posts.moment, comments, pv  FROM users, posts  WHERE users.id = posts.uid  LIMIT ?,?';
+    
     const startIndex = (pageNo-1) * pageSize; //起始序号
     const params = [startIndex,pageSize]
     const result = await queryDB(sql,params);
@@ -34,7 +35,8 @@ router.get('/list', async ctx => {
  */
 router.get('/detail/:id', async ctx => {
     const id = ctx.params.id; //文章id
-    const sql = 'SELECT * FROM posts WHERE id = ?';
+    // const sql = 'SELECT * FROM posts WHERE id = ?';
+    const sql = 'SELECT name, avator, posts.id, title,content,md, posts.moment, comments, pv  FROM users, posts  WHERE users.id = posts.uid AND posts.id=?';
     const params = [id];
     const result = await queryDB(sql,params);
     //查询评论
@@ -58,15 +60,15 @@ router.get('/create', async ctx => {
  * /post/create   
  */
 router.post('/create', async ctx => {
-    const sql = 'INSERT INTO posts (name,title,content,md,uid,moment,comments,pv,avator) VALUES (?,?,?,?,?,?,?,?,?)';
+    const sql = 'INSERT INTO posts (title,content,md,uid,moment,comments,pv) VALUES (?,?,?,?,?,?,?)';
     console.log(sql);
     const time = moment().format('YYYY-MM-DD HH:mm:ss');
-    const name = ctx.session.userInfo.name;
-    const avator = ctx.session.userInfo.avator;
+    // const name = ctx.session.userInfo.name;
+    // const avator = ctx.session.userInfo.avator;
     const id = ctx.session.userInfo.id;
     const title = ctx.request.body.title;
     const content = ctx.request.body.content;
-    const params = [name,title,content,content,id,time,0,0,avator];
+    const params = [title,content,content,id,time,0,0];
     console.log(params);
 
     await queryDB(sql,params);
