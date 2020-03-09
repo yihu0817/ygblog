@@ -6,8 +6,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Koa框架博客案例</title>
 	<link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+	<!-- 引入css文件 -->
+	<!-- 代码高亮采用dracula主题，可去highlight官网配置 -->
+	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" rel="stylesheet"> -->
+	<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet"> 
 	<link rel="stylesheet" href="../../css/index.css">
+
+	<!-- highlight.js的主要js文件 -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script> -->
+
 	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+
+
 </head>
 
 <body>
@@ -25,15 +35,15 @@
 				<div class="comment_pv">
 					<span><%= post[0].moment %></span>
 				</div>
-				<a href="/posts/1">
-					<div class="title">
-						<img class="userAvator" src="../../upload/<%= post[0].avator %>" alt="avator">
-						<%- post[0].title %>
-					</div>
-					<div class="content markdown">
-						<%- post[0].content %>
-					</div>
-				</a>
+
+				<div class="title">
+					<img class="userAvator" src="../../upload/<%= post[0].avator %>" alt="avator">
+					<%- post[0].title %>
+				</div>
+				<div class="content markdown">
+					<%- post[0].content %>
+				</div>
+
 				<div class="edit">
 					<p><a href="#">编辑</a></p>
 					<p><a class="delete_post">删除</a></p>
@@ -47,59 +57,59 @@
 			<textarea id="spContent" name="content" cols="82"></textarea>
 			<div class="submit">发表评论</div>
 		</form>
+
 		<% } else { %>
-			<p class="tips">登录之后才能发表评论</p>
+		<p class="tips">登录之后才能发表评论</p>
 		<% } %>
 		<div class="comment_list markdown">
-			 
-		
 			<div class="cmt_lists">
 				<% comment.forEach(item => { %>
-					<div class="cmt_content">
-						<div class="userMsg">
-							<img src="../../upload/<%= item.avator %>" alt="avator"><span><%- item.name %></span>
-						</div>
-						<div class="cmt_detail">
-							<%- item.content %>
-						</div>
-						<span class="cmt_time"><%= item.moment %></span>
-						<span class="cmt_name">
-							<a class="delete_comment" href="javascript:delete_comment(<%= item.id %>);"> 删除</a>
-	
-						</span>
+				<div class="cmt_content">
+					<div class="userMsg">
+						<img src="../../upload/<%= item.avator %>" alt="avator"><span><%- item.name %></span>
 					</div>
+					<div class="cmt_detail">
+						<%- item.content %>
+					</div>
+					<span class="cmt_time"><%= item.moment %></span>
+					<span class="cmt_name">
+						<a class="delete_comment" href="javascript:delete_comment(<%= item.id %>);"> 删除</a>
+
+					</span>
+				</div>
 
 				<% })%>
-				
+
 			</div>
 
 		</div>
 		<% if(comment.length <= 0) { %>
-		  <p class="tips">还没有评论，赶快去评论吧！</p>
+		<p class="tips">还没有评论，赶快去评论吧！</p>
 		<% } %>
 		<div style="margin-top: 30px" class="pagination" id="page"></div>
 	</div>
 	<script src="/pagination.js"></script>
 	<script>
-       
-		const postId = <%= post[0].id %>;
+		const postId = <%= post[0].id %>
 		//发评论
-		$('.submit').bind('click', ()=>{
+		$('.submit').bind('click', () => {
 			const comment = $('#spContent').val();
 			$.ajax({
 				url: '/comment/create',
 				method: 'post',
 				dataType: 'json',
 				data: `comment=${comment}&postId=${postId}`,
-				success: function(result){
-					if(result.code == 1){
+				success: function (result) {
+					if (result.code == 1) {
 						//发表评论成功 ，刷新文章评论
-						window.location.href = '/post/detail/'+postId
+						window.location.href = '/post/detail/' + postId
 					}
 				},
-				error: function(error){
+				error: function (error) {
 					alert(error);
 				}
 			});
 		})
-    </script>
+	</script>
+
+	

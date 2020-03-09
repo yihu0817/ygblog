@@ -1,17 +1,8 @@
 const router = require('koa-router')();
 const queryDB = require('../config/promiseDb');
 const moment = require('moment');
+
 router.prefix('/post'); //前缀
-/**
- * 所有文章列表
- * /post/list
- */
-// router.get('/list', async ctx => {
-//     const sql = 'SELECT * FROM posts LIMIT 0,5';
-//     const result = await queryDB(sql);
-//     const userInfo = ctx.session.userInfo;
-//     await ctx.render('posts',{list:result,userInfo:userInfo});
-// });
 
 /**
  * 所有文章分页实现
@@ -67,7 +58,6 @@ router.get('/create', async ctx => {
  * /post/create   
  */
 router.post('/create', async ctx => {
-    // ctx.body = {code: 1, body:ctx.request.body};
     const sql = 'INSERT INTO posts (name,title,content,md,uid,moment,comments,pv,avator) VALUES (?,?,?,?,?,?,?,?,?)';
     console.log(sql);
     const time = moment().format('YYYY-MM-DD HH:mm:ss');

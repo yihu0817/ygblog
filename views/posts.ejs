@@ -28,10 +28,10 @@
                 <div class="comment_pv">
                     <span><%= list[i].moments %></span>
                 </div>
-                <a href="/post/detail/<%= list[i].id %>">
+                <a href="/post/detail/<%= list[i].id %>" style="text-decoration: none;">
                     <div class="title">
                         <img class="userAvator" src="../upload/<%= list[i].avator%>" alt="avator">
-                        <%- list[i].title%>
+                        <%- list[i].title %>
                     </div>
                     <div class="content-index markdown">
                         <%- list[i].content%>
@@ -48,8 +48,8 @@
 
     <script>
        
-        let totalPages = <%= page.totalPages %>;
-        let currentPage = <%= page.currentPage %> ;
+        let totalPages = <%= page.totalPages %>
+        let currentPage = <%= page.currentPage %>
         console.log(`totalPages : ${totalPages} , currentPage : ${currentPage}`);
 
         $.jqPaginator('#pagination2', {

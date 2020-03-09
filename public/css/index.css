@@ -93,14 +93,14 @@ header .user_name {
     font-size: 16px;
 }
 .posts > li:hover {
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
 }
 .posts > li:hover pre{
-    border: 1px solid #666;
+    /* border: 1px solid #666; */
 }
 .posts > li:hover .content{
     border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
+    /* border-bottom: 1px solid #fff; */
 }
 .posts > li + li{
     border-top: 1px solid #ddd;

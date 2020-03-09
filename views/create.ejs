@@ -6,13 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koa框架博客案例</title>
     <link rel="icon" type="image/png" href="http://www.yuguoxy.cn/res/i/favicon.png" sizes="16x16">
+    <!-- 引入css文件 -->
+    <!-- 代码高亮采用dracula主题，可去highlight官网配置 -->
+    <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+    <!-- 采用snow主题 -->
+    <link href="../css/quill.snow.css" rel="stylesheet">
+    <!-- 自定义css -->
     <link rel="stylesheet" href="../css/index.css">
+
     <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- highlight.js的主要js文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <!-- quill的主要js文件 -->
+    <script src="../js/quill.min.js"></script>
 </head>
 
 <body>
-    	<!-- 头部 -->
-	<%- include('header', {}); %>
+    <!-- 头部 -->
+    <%- include('header', {}); %>
 
     <div class="container">
         <form style="width:100%" method="post" class="form create">
@@ -22,7 +33,9 @@
             </div>
             <div>
                 <label>内容：</label>
-                <textarea placeholder="请输入内容" name="content" id="" cols="42" rows="10"></textarea>
+                <!-- <textarea placeholder="请输入内容" name="content" id="" cols="42" rows="10"></textarea> -->
+                <!-- 创建编辑容器 -->
+                <div id="editor" style="height: 500px;"></div>
             </div>
             <div class="submit">发表</div>
         </form>
@@ -31,24 +44,93 @@
     <script>
         $('.submit').bind('click', () => {
             const title = $('input[name="title"]').val();
-            const content = $('textarea[name="content"]').val();
-            
+            // const content = $('textarea[name="content"]').val();
+            const content = document.querySelector('#editor').children[0].innerHTML;
             //调服务端接口
             $.ajax({
-                url:'/post/create',
+                url: '/post/create',
                 method: 'POST',
                 dataType: 'json',
-                data: {title, content},
-                success: function(result){
-                    if(result.code == 1)
+                data: {
+                    title,
+                    content
+                },
+                success: function (result) {
+                    if (result.code == 1)
                         window.location.href = '/post/list'
                 },
-                error: function(err){
-                    alert('err :'+err);
+                error: function (err) {
+                    alert('err :' + err);
                 }
             })
-            
+
         })
+    </script>
+
+    <!-- 初始化编辑器，snow主题 -->
+    <script>
+        var toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'], // 切换按钮
+            ['blockquote', 'code-block'],
+
+            [{
+                'header': 1
+            }, {
+                'header': 2
+            }], // 用户自定义按钮值
+            [{
+                'list': 'ordered'
+            }, {
+                'list': 'bullet'
+            }],
+            [{
+                'script': 'sub'
+            }, {
+                'script': 'super'
+            }], // 上标/下标
+            [{
+                'indent': '-1'
+            }, {
+                'indent': '+1'
+            }], // 减少缩进/缩进
+            [{
+                'direction': 'rtl'
+            }], // 文本下划线
+
+            [{
+                'size': ['small', false, 'large', 'huge']
+            }], // 用户自定义下拉
+            [{
+                'header': [1, 2, 3, 4, 5, 6, false]
+            }],
+
+            [{
+                'color': []
+            }, {
+                'background': []
+            }], // 主题默认下拉，使用主题提供的值
+            [{
+                'font': []
+            }],
+            [{
+                'align': []
+            }],
+
+            ['clean'] // 清除格式
+        ];
+
+        // hljs.configure({ // optionally configure hljs
+        //     languages: ['javascript', 'java', 'html', 'css']
+        // });
+        
+
+        var quill = new Quill('#editor', {
+            modules: {
+                syntax: true, // Include syntax module
+                toolbar: toolbarOptions
+            },
+            theme: 'snow'
+        });
     </script>
 </body>
 

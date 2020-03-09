@@ -4,35 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- 引入css文件 -->
-    <!-- // 代码高亮采用dracula主题，可去highlight官网配置 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" rel="stylesheet">
-    <!-- // 采用snow主题 -->
+    <title>富文本框</title>
+    <!-- 代码高亮采用dracula主题，可去highlight官网配置 -->
+    <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+    <!-- 采用snow主题 -->
     <link href="../css/quill.snow.css" rel="stylesheet">
-    <!-- // highlight.js的主要js文件 -->
+    <!-- highlight.js的主要js文件 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-    <!-- // quill的主要js文件 -->
+    <!-- 引入quill.js -->
     <script src="../js/quill.min.js"></script>
-    <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 </head>
 
 <body>
-
-    <!-- 自定义编辑器工具栏 -->
-    <div id="toolbar">
-        <button class="ql-bold">Bold</button>
-        <button class="ql-italic">Italic</button>
-    </div>
-
+    <!-- 富文本显示位置 -->
     <!-- 创建编辑容器 -->
-    <div id="editor" style="height: 500px;">
-        <p >Hello World!</p>
-    </div>
-    <button onclick="sub_post()">获取内容</button>
-    <input type="text" name="content" id="">
-    <!-- 初始化编辑器，snow主题 -->
+    <div id="editor" style="height: 500px;"></div>
+
     <script>
+        //初始化富文本框工具栏
         var toolbarOptions = [
             ['bold', 'italic', 'underline', 'strike'], // 切换按钮
             ['blockquote', 'code-block'],
@@ -82,25 +71,13 @@
 
             ['clean'] // 清除格式
         ];
-
         var quill = new Quill('#editor', {
             modules: {
+                syntax: true, // Include syntax module
                 toolbar: toolbarOptions
             },
             theme: 'snow'
         });
-    </script>
-    <script>
-        // 提交表单
-        function sub_post() {
-            var html = document.querySelector('#editor').children[0].innerHTML;
-            console.log(html);
-            html = '<div class="ql-container ql-snow"><div class="ql-editor">' + html + "</div></div>";
-            console.log(html);
-            $('[name=content]').val(html);
-
-            // $("#submitForm").submit();
-        }
     </script>
 </body>
 
