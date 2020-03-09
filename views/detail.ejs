@@ -11,14 +11,9 @@
 	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" rel="stylesheet"> -->
 	<link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet"> 
 	<link rel="stylesheet" href="../../css/index.css">
-
-	<!-- highlight.js的主要js文件 -->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script> -->
-
+	<!-- 引入js文件 -->
 	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
 	<script src="../../js/vue.js"></script>
-
-
 </head>
 
 <body>
@@ -96,7 +91,6 @@
 			el: '#app',
 			data: {
 				content:'',
-				// coments:[{id:1,name:'评论名1',moment:'2020-3-9 12:10', avator: 'upload_89b1f7c0c86af3db8436a11b1e42e670.jpg'}];
 				coments:[]
 			},
 			methods:{
@@ -116,7 +110,7 @@
 							}
 						},
 						error: function (error) {
-							alert(error);
+							alert('error : '+error);
 						}
 					});
 				},
@@ -131,18 +125,16 @@
 						data: `id=${postId}`,
 						success: function(result){
 							if(result.code == 1){
-								console.log(result.comments);
 								that.coments = result.comments;
 							}
 						},
 						error: function(err){
-							alert(err);
+							alert('err :'+err);
 						}
 					});
 				}
 			},
 			created(){
-				console.log('>>>>>>created '+postId);
 				this.findComents(postId);
 			}
 		});

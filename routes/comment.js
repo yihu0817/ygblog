@@ -9,15 +9,12 @@ rounter.prefix('/comment');
  * /comment/create
  */
 rounter.post('/create', async ctx => {
-    const sql = 'INSERT INTO comment (name,content,moment,postid,avator) VALUES (?,?,?,?,?)';
-    const name = ctx.session.userInfo.name;
-    const avator = ctx.session.userInfo.avator;
+    const sql = 'INSERT INTO comment (content,moment,postid,uid) VALUES (?,?,?,?)';
     const time = moment().format('YYYY-MM-DD HH:mm:ss');
     const content = ctx.request.body.comment;
     const postId = ctx.request.body.postId;
-
-    const params = [name,content,time,postId,avator];
-
+    const uid = ctx.session.userInfo.id
+    const params = [content,time,postId,uid];
     await queryDB(sql,params);
     ctx.body = {code:1,msg:'发表评论成功!'}
 });
@@ -27,8 +24,8 @@ rounter.post('/create', async ctx => {
  */
 rounter.get('/list', async ctx => {
     const id = ctx.query.id; //文章id
-    console.log(`id = ${id}`);
-    const sqlComment = 'SELECT * FROM comment WHERE postid = ?'
+    //const sqlComment = 'SELECT id,name,content,moment,postid,avator FROM comment WHERE postid = ?'
+    const sqlComment = 'SELECT comment.id,comment.content,comment.moment,users.avator,users.name FROM comment,users WHERE users.id = comment.uid AND postid = ?'
     const params = [id];
     const commentResult = await queryDB(sqlComment,params); 
     console.log(commentResult);

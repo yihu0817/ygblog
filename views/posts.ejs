@@ -21,7 +21,7 @@
             <% for(let i =0; i < list.length; i++) { %>
             <li>
                 <div class="author">
-                    <span title="<%= list[i].title%>"></span>
+                    <span title="<%= list[i].title%>">作者: <%= list[i].name %></span>
                     <span>评论数：<%= list[i].comments %></span>
                     <span>浏览量：<%= list[i].pv %></span>
                 </div>
@@ -47,7 +47,6 @@
     <%- include('footer', {}); %>
 
     <script>
-       
         let totalPages = <%= page.totalPages %>
         let currentPage = <%= page.currentPage %>
         console.log(`totalPages : ${totalPages} , currentPage : ${currentPage}`);
