@@ -22,4 +22,18 @@ rounter.post('/create', async ctx => {
     ctx.body = {code:1,msg:'发表评论成功!'}
 });
 
+/**
+ * 根据文章查询评论
+ */
+rounter.get('/list', async ctx => {
+    const id = ctx.query.id; //文章id
+    console.log(`id = ${id}`);
+    const sqlComment = 'SELECT * FROM comment WHERE postid = ?'
+    const params = [id];
+    const commentResult = await queryDB(sqlComment,params); 
+    console.log(commentResult);
+    ctx.body = {code:1,comments: commentResult};
+
+});
+
 module.exports = rounter;

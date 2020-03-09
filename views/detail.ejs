@@ -16,6 +16,7 @@
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script> -->
 
 	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+	<script src="../../js/vue.js"></script>
 
 
 </head>
@@ -51,65 +52,99 @@
 			</li>
 		</ul>
 	</div>
-	<div class="comment_wrap">
+	<div class="comment_wrap" id="app">
 		<% if(userInfo) { %>
-		<form class="form" method="post" action="/1">
-			<textarea id="spContent" name="content" cols="82"></textarea>
-			<div class="submit">发表评论</div>
+		<form class="form" method="post" @submit.prevent>
+			<textarea id="spContent" name="content" v-model='content' cols="82"></textarea>
+			<div class="submit" @click="onsubmit">发表评论</div>
 		</form>
 
 		<% } else { %>
 		<p class="tips">登录之后才能发表评论</p>
 		<% } %>
-		<div class="comment_list markdown">
+
+		<!-- vue实现数据交互 -->
+		<div  class="comment_list markdown">
 			<div class="cmt_lists">
-				<% comment.forEach(item => { %>
-				<div class="cmt_content">
+		
+				<div class="cmt_content" v-for="(item,index) in coments">
 					<div class="userMsg">
-						<img src="../../upload/<%= item.avator %>" alt="avator"><span><%- item.name %></span>
+						<!-- <img src="../../upload/{{item.avator }}" alt="avator"><span>{{item.name }}</span> -->
+						<img :src="'/upload/'+item.avator" alt="avator"><span>{{item.name }}</span>
 					</div>
 					<div class="cmt_detail">
-						<%- item.content %>
+					{{item.content}}
 					</div>
-					<span class="cmt_time"><%= item.moment %></span>
+					<span class="cmt_time">{{item.moment}}</span>
 					<span class="cmt_name">
-						<a class="delete_comment" href="javascript:delete_comment(<%= item.id %>);"> 删除</a>
-
+						<a class="delete_comment" href="javascript:delete_comment(item.id);"> 删除</a>
 					</span>
 				</div>
-
-				<% })%>
-
 			</div>
-
 		</div>
+
 		<% if(comment.length <= 0) { %>
 		<p class="tips">还没有评论，赶快去评论吧！</p>
 		<% } %>
 		<div style="margin-top: 30px" class="pagination" id="page"></div>
 	</div>
-	<script src="/pagination.js"></script>
+
 	<script>
 		const postId = <%= post[0].id %>
-		//发评论
-		$('.submit').bind('click', () => {
-			const comment = $('#spContent').val();
-			$.ajax({
-				url: '/comment/create',
-				method: 'post',
-				dataType: 'json',
-				data: `comment=${comment}&postId=${postId}`,
-				success: function (result) {
-					if (result.code == 1) {
-						//发表评论成功 ，刷新文章评论
-						window.location.href = '/post/detail/' + postId
-					}
+		
+		new Vue({
+			el: '#app',
+			data: {
+				content:'',
+				coments:[{id:1,name:'评论名1',moment:'2020-3-9 12:10', avator: 'upload_89b1f7c0c86af3db8436a11b1e42e670.jpg'}]
+			},
+			methods:{
+				onsubmit: function(){
+					const that = this;
+					const comment =  this.content;
+					$.ajax({
+						url: '/comment/create',
+						method: 'post',
+						dataType: 'json',
+						data: `comment=${comment}&postId=${postId}`,
+						success: function (result) {
+							if (result.code == 1) {
+								//发表评论成功 ，刷新文章评论
+								// window.location.href = '/post/detail/' + postId
+								that.findComents(postId);
+							}
+						},
+						error: function (error) {
+							alert(error);
+						}
+					});
 				},
-				error: function (error) {
-					alert(error);
+				//查询评论
+				findComents: function(postId){
+					const that = this;
+					console.log(`postId = ${postId}`);
+					$.ajax({
+						url: '/comment/list',
+						methods: 'get',
+						dataType:'json',
+						data: `id=${postId}`,
+						success: function(result){
+							if(result.code == 1){
+								console.log(result.comments);
+								that.coments = result.comments;
+							}
+						},
+						error: function(err){
+							alert(err);
+						}
+					});
 				}
-			});
-		})
+			},
+			created(){
+				console.log('>>>>>>created '+postId);
+				this.findComents(postId);
+			}
+		});
 	</script>
 
 	
