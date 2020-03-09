@@ -91,12 +91,13 @@
 
 	<script>
 		const postId = <%= post[0].id %>
-		
+
 		new Vue({
 			el: '#app',
 			data: {
 				content:'',
-				coments:[{id:1,name:'评论名1',moment:'2020-3-9 12:10', avator: 'upload_89b1f7c0c86af3db8436a11b1e42e670.jpg'}]
+				// coments:[{id:1,name:'评论名1',moment:'2020-3-9 12:10', avator: 'upload_89b1f7c0c86af3db8436a11b1e42e670.jpg'}];
+				coments:[]
 			},
 			methods:{
 				onsubmit: function(){
